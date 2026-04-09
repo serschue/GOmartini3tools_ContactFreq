@@ -1,3 +1,5 @@
+This repository was copied from https://github.com/GoMartini3-tools/ContactFreq.git and adapted such that it is possible to create the contact maps without creating the Go-Martini model.
+
 # High-frequency-contacts
 
 Tools to compute **high-frequency native contacts** from MD trajectories and build a coarse-grained (CG) Gō-Martini model with **martinize2**.
