@@ -23,6 +23,7 @@ import glob
 import MDAnalysis as mda
 from string import ascii_uppercase
 from tqdm import tqdm
+from io_functions import load_trajectory
 
 # --- configuration ---
 
@@ -260,8 +261,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Convert trajectory frames to PDB by chain ranges, then postprocess."
     )
-    parser.add_argument('--trajectory', required=True, help='Trajectory file (xtc, dcd, trr, etc.)')
-    parser.add_argument('--topology', required=True, help='Topology file (pdb, gro, psf, etc.)')
+    parser.add_argument('--trajectory', help='Trajectory file (xtc, dcd, trr, etc.)')
+    parser.add_argument('--topology', default = "./equil/equil.gro",  help='Topology file (pdb, gro, psf, etc.)')
     parser.add_argument(
         '--ranges',
         required=True,
@@ -274,10 +275,17 @@ def main():
         action='store_true',
         help='Keep hydrogen atoms (default: remove hydrogens)'
     )
+    parser.add_argument(
+        '--dir',
+        default='.',
+        help='Gromacs directory (/gromacs) (default: current directory)'
+    )
+    parser.add_argument(tra_pattern='trajectory_pattern', default = "./COM_corrected/com_MD_step_*.xtc", help='Trajectory file (xtc, dcd, trr, etc.)')
     args = parser.parse_args()
 
     residue_ranges = parse_ranges(args.ranges)
-    u = mda.Universe(args.topology, args.trajectory)
+    u = load_trajectory(topology=args.topology, directory=args.dir, trajectories_pattern = args.tra_pattern) #u = mda.Universe(args.topology, args.trajectory)
+
     total_frames = len(u.trajectory)
     frame_indices = range(0, total_frames, args.stride)
 

@@ -677,6 +677,10 @@ def main():
     # NEW FLAG: sigma recalculation
     parser.add_argument("--sigma", dest="sigma", action="store_true",
                         help="Recalculate sigma values from selected frame and replace them in go_nbparams.itp")
+    
+    # NEW FLAG: skip CG model generation and just do contact analysis
+    parser.add_argument("--skip-cg", default=False, dest="skip_cg", action="store_true",
+                        help="Skip coarse-grained model generation and just perform contact analysis")
 
     args = parser.parse_args()
 
@@ -722,6 +726,11 @@ def main():
 
     # per-frame counts against the high set
     write_high_counts_per_frame(high_file, "annotated_*.txt", "high_counts_per_frame.txt")
+
+    if (args.skip_cg):
+        print(f"High-frequency contacts written to {high_file}")
+        print("Analysis completed without CG model generation.")
+        return
 
     # determine available frame files for selection and martinize2
     available_map = {}

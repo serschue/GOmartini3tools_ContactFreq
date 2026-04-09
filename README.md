@@ -32,10 +32,13 @@ python traj_to_pdb.py   --trajectory 6ZH9_WT_dry_100.nc   --topology   6ZH9_WT_d
 **Options:**
 
 - `--trajectory` trajectory file (e.g., `.xtc`, `.dcd`, `.nc`)
-- `--topology` topology or coordinates (e.g., `.pdb`, `.gro`, `.parm7`)
+- `--topology` topology or coordinates (e.g., `.pdb`, `.gro`, `.parm7`), (default: "./equil/equil.gro")
 - `--ranges` residue blocks per chain (e.g., `2-196,197-325`)
 - `--outdir` where frames are written
 - `--stride` keep every n-th frame
+- `--keepH`  keep hydrogen atoms
+- `--dir`  gromacs directory
+- `--trajectory_pattern` path from dir to the trajectory files (default: ./COM_corrected/com_MD_step_*.xtc)
 
 Frames must be named `frame_0001.pdb`, `frame_0002.pdb`, … (or `.cif`).
 If both `.pdb` and `.cif` exist for the same index, PDB is preferred.
@@ -81,6 +84,7 @@ python contact_analysis.py   --cm /path/to/contact_map   --type inter   --cpus 1
 - `--dssp` (str|None, `None`): path to `mkdssp`
 - `--from` (`amber|charmm`, `"amber"`): source force field for martinize2
 - `--posres` (`none|all|backbone`, `"none"`): position restraints
+- `--skip_cg` (default: `False`): Complete analysis without CG model generation.
 
 **Gō model and contact filtering (nm):**
 
